@@ -12,7 +12,7 @@ struct Route: Codable, Identifiable {
     let origin: String
     let destination: String
     let distance: Double?
-    let emission: [TransitionEmission]?
+    let emission: Double
     let date: Date
     
     struct TransitionEmission: Codable {

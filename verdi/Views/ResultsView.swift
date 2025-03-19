@@ -44,6 +44,14 @@ struct ResultsView: View {
                         }
                         
                         Spacer()
+                        
+                        if let carbonKg = mode.carbonKg {
+                            let formattedValue = String(format: "%.1f kg CO₂", carbonKg)
+                            
+                            Text(formattedValue)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
                     }
                     .padding()
                     .background(Color.gray.opacity(0.1))

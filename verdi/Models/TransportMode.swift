@@ -12,6 +12,7 @@ struct TransportMode: Identifiable {
     let type: Route.TransportType
     let duration: String
     let icon: String
+    var carbonKg: Double?
     
     static func getIcon(for type: Route.TransportType) -> String {
         switch type {
