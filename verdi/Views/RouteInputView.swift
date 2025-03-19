@@ -10,9 +10,10 @@ import SwiftUI
 struct RouteInputView: View {
     @EnvironmentObject var viewModel: RouteViewModel
     @State private var showingError = false
+    @State private var showingResults = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 25) {
                 TextField("Origem", text: $viewModel.currentOrigin)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -22,7 +23,12 @@ struct RouteInputView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
                 
-                NavigationLink(value: true) {
+                Button(action: {
+                    Task {
+                        await viewModel.calculateRoute()
+                        showingResults = true
+                    }
+                }) {
                     if viewModel.isLoading {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
@@ -43,7 +49,7 @@ struct RouteInputView: View {
             }
             .navigationTitle("Nova Rota")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: Bool.self) { _ in
+            .navigationDestination(isPresented: $showingResults) {
                 ResultsView()
             }
             .alert("Erro", isPresented: $showingError) {
@@ -54,12 +60,6 @@ struct RouteInputView: View {
             .onChange(of: viewModel.error) { error in
                 showingError = error != nil
             }
-        }
-    }
-    
-    private func calculateRoute() {
-        Task {
-            await viewModel.calculateRoute()
         }
     }
 }
