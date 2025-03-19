@@ -20,9 +20,9 @@ struct MainTabView: View {
                     Label("Histórico", systemImage: "clock")
                 }
             
-            TipsView()
+            AboutView()
                 .tabItem {
-                    Label("Dicas", systemImage: "leaf")
+                    Label("Sobre", systemImage: "info.circle")
                 }
         }
     }
