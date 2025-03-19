@@ -31,8 +31,9 @@ struct WelcomeView: View {
             Spacer()
             
             Button(action: {
-                UserDefaults.standard.set(true, forKey: "hasSeenWelcome")
-                hasSeenWelcome = true
+                withAnimation {
+                    hasSeenWelcome = true
+                }
             }) {
                 Text("Começar")
                     .bold()

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var hasSeenWelcome: Bool = UserDefaults.standard.bool(forKey: "hasSeenWelcome")
+    @AppStorage("hasSeenWelcome") private var hasSeenWelcome: Bool = false
     
     var body: some View {
         if !hasSeenWelcome {

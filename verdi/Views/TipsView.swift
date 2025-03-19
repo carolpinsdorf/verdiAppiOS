@@ -26,6 +26,16 @@ struct TipsView: View {
                 }
             }
             .navigationTitle("Dicas Sustentáveis")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        UserDefaults.standard.set(false, forKey: "hasSeenWelcome")
+                    }) {
+                        Text("Voltar para boas-vindas")
+                            .foregroundColor(.red)
+                    }
+                }
+            }
         }
     }
 } 
