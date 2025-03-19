@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 class LocationService: ObservableObject {
-    private let apiKey: String = "AIzaSyBNRqYwl8lsZXnRbG4PbZuPmwGG7HJRhdg" // Substitua com sua chave da API Google Maps
+    private let apiKey: String = "REMOVIDO" // Substitua com sua chave da API Google Maps
     
     func calculateRoute(origin: String, destination: String) async throws -> RouteDetails {
         // Construir a URL da API do Google Maps Directions

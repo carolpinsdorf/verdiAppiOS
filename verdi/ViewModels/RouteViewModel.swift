@@ -14,6 +14,7 @@ class RouteViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var currentRouteDetails: RouteDetails?
     @Published var error: String?
+    @Published var transportModes: [TransportMode] = []
     
     private let locationService = LocationService()
     private let userDefaults = UserDefaults.standard
@@ -46,6 +47,15 @@ class RouteViewModel: ObservableObject {
             
             saveRoute(newRoute)
             
+            let carDuration = currentRouteDetails?.duration ?? 0
+            self.transportModes = [
+                TransportMode(type: .car, duration: formatDuration(carDuration), icon: TransportMode.getIcon(for: .car)),
+                TransportMode(type: .bus, duration: formatDuration(carDuration * 1.5), icon: TransportMode.getIcon(for: .bus)),
+                TransportMode(type: .train, duration: formatDuration(carDuration * 1.2), icon: TransportMode.getIcon(for: .train)),
+                TransportMode(type: .bike, duration: formatDuration(carDuration * 3), icon: TransportMode.getIcon(for: .bike)),
+                TransportMode(type: .walk, duration: formatDuration(carDuration * 12), icon: TransportMode.getIcon(for: .walk))
+            ]
+            
         } catch {
             self.error = error.localizedDescription
         }
@@ -64,6 +74,17 @@ class RouteViewModel: ObservableObject {
         routes.append(route)
         if let encodedRoutes = try? JSONEncoder().encode(routes) {
             userDefaults.set(encodedRoutes, forKey: routesKey)
+        }
+    }
+    
+    private func formatDuration(_ seconds: Double) -> String {
+        let hours = Int(seconds) / 3600
+        let minutes = Int(seconds) / 60 % 60
+        
+        if hours > 0 {
+            return "\(hours)h \(minutes)min"
+        } else {
+            return "\(minutes)min"
         }
     }
 } 
