@@ -14,21 +14,24 @@ struct WelcomeView: View {
         VStack(spacing: 20) {
             Spacer()
             
-            Image(systemName: "leaf.fill")
+            Image("logo-sem-fundo")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 100, height: 100)
-                .foregroundColor(.green)
+                .frame(width: 250)
             
-            Text("Bem-vindo ao Verdí")
+            Text("Seja bem-vinde!")
                 .font(.title)
                 .bold()
+                .foregroundColor(Theme.textColor)
             
             Text("Compare as emissões de CO₂ dos diferentes meios de transporte e faça escolhas mais sustentáveis para suas viagens.")
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
+                .padding(.bottom, 15)
+                .foregroundColor(Theme.textColor)
+                .font(.system(size: 22))
             
-            Spacer()
+            //Spacer(minLength: 0)
             
             Button(action: {
                 withAnimation {
@@ -39,13 +42,19 @@ struct WelcomeView: View {
                     .bold()
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
+                    .background(Theme.darkAccentColor)
+                    .foregroundColor(Theme.textColor)
+                    .font(.system(size: 20))
                     .cornerRadius(10)
             }
             .padding(.horizontal)
+            .padding(.bottom, 250)
         }
         .padding()
+        .background(
+            RadialGradient(gradient: Gradient(colors: [Theme.accentColor,Theme.customColor]), center: .center, startRadius: 100, endRadius: 400)
+        )
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -54,7 +63,7 @@ struct WelcomeView: View {
 //        .environmentObject(RouteViewModel())
 //}
 //
-//#Preview {
-//    WelcomeView(hasSeenWelcome: .constant(false))
-//        .environmentObject(RouteViewModel())
-//}
+#Preview {
+    WelcomeView(hasSeenWelcome: .constant(false))
+        .environmentObject(RouteViewModel())
+}
