@@ -58,12 +58,9 @@ struct WelcomeView: View {
     }
 }
 
-//#Preview {
-//    ContentView()
-//        .environmentObject(RouteViewModel())
-//}
-//
-#Preview {
-    WelcomeView(hasSeenWelcome: .constant(false))
-        .environmentObject(RouteViewModel())
-}
+
+
+ #Preview {
+     WelcomeView(hasSeenWelcome: .constant(false))
+         .environmentObject(RouteViewModel())
+ }
