@@ -11,62 +11,91 @@ struct ResultsView: View {
     @EnvironmentObject var viewModel: RouteViewModel
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                Text("Resultados")
-                    .font(.title)
-                    .padding()
+        NavigationStack {
+            ZStack {
+                RadialGradient(gradient: Gradient(colors: [Theme.customColor, Theme.customColor]), center: .center, startRadius: 100, endRadius: 400)
+                    .edgesIgnoringSafeArea(.all)
                 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("De: \(viewModel.currentOrigin)")
-                        .font(.subheadline)
-                    Text("Para: \(viewModel.currentDestination)")
-                        .font(.subheadline)
-                }
-                .padding(.horizontal)
-                
-                Text("Tempo estimado por meio de transporte:")
-                    .font(.headline)
-                    .padding(.top)
-                
-                ForEach(viewModel.transportModes) { mode in
-                    HStack {
-                        Image(systemName: mode.icon)
-                            .font(.title2)
-                            .frame(width: 40)
+                ScrollView {
+                    Image("logo-sem-fundo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 150)
+
+                    VStack(spacing: 25) {
+                        Text("Resultados")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundColor(Theme.textColor)
+                            .padding(.top, 20)
                         
-                        VStack(alignment: .leading) {
-                            Text(mode.type.rawValue.capitalized)
-                                .font(.headline)
-                            Text(mode.duration)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("De: \(viewModel.currentOrigin)")
+                                .font(.system(size: 20))
+                                .foregroundColor(Theme.textColor)
+                            Text("Para: \(viewModel.currentDestination)")
+                                .font(.system(size: 20))
+                                .foregroundColor(Theme.textColor)
+                        }
+                        .padding(.horizontal)
+                        
+                        ForEach(viewModel.transportModes) { mode in
+                            HStack {
+                                //icone
+                                Image(systemName: mode.icon)
+                                    .font(.title2)
+                                    .frame(width: 40)
+                                    .foregroundColor(.black)
+                                
+                                //modo
+                                VStack(alignment: .leading) {
+                                    Text(mode.type.rawValue.capitalized)
+                                        .font(.headline)
+                                        .foregroundColor(Theme.textColor)
+                                    
+                                    //duracao
+                                    Text(mode.duration)
+                                        .font(.subheadline)
+                                        .foregroundColor(Color.blue)
+                                }
+                                
+                                Spacer()
+                                
+                                if let carbonKg = mode.carbonKg {
+                                    let formattedValue = String(format: "%.3f kg CO₂", carbonKg)
+                                    
+                                    if carbonKg == 0 {
+                                            Text(formattedValue)
+                                                .font(.system(size: 20, weight: .medium))
+                                                .foregroundColor(Theme.darkAccentColor) // Cor verde para emissões 0
+                                                .bold()
+                                        } else {
+                                            Text(formattedValue)
+                                                .font(.system(size: 20, weight: .medium))
+                                                .foregroundColor(.red) // Cor vermelha para emissões > 0
+                                                .bold()
+                                        }
+                                    }
+                                }
+                            }
+                            .padding()
+                            .background(Theme.darkAccentColor.opacity(0.3))
+                            .cornerRadius(10)
+                            .padding(.horizontal)
                         }
                         
                         Spacer()
-                        
-                        if let carbonKg = mode.carbonKg {
-                            let formattedValue = String(format: "%.1f kg CO₂", carbonKg)
-                            
-                            Text(formattedValue)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
                     }
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
+                    .padding(.bottom, 40)
                 }
-                
-                Spacer()
             }
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationTitle("Resultados")
     }
-}
 
-//#Preview {
-//    ResultsView()
-//        .environmentObject(RouteViewModel())
-//} 
+
+#Preview {
+    ResultsView()
+        .environmentObject(RouteViewModel())
+} 
