@@ -24,7 +24,7 @@ struct CarbonEstimate: Codable {
 }
 
 class CarbonService {
-    private let apiKey = "Rxc1waPt4cjc5NNZCvkLyQ"
+    private let apiKey = "CHAVE_DA_API" // Substitua com a chave da Carbon Interface
     private let baseURL = "https://www.carboninterface.com/api/v1/estimates"
     private let vehicleModelId = "3a326945-8dbc-4e6d-a659-c32f03196407"
     
